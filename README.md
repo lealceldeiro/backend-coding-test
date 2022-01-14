@@ -1,4 +1,5 @@
 [![Java CI with Maven](https://github.com/lealceldeiro/backend-coding-test/actions/workflows/maven.yml/badge.svg)](https://github.com/lealceldeiro/backend-coding-test/actions/workflows/maven.yml)
+[![codecov](https://codecov.io/gh/lealceldeiro/backend-coding-test/branch/master/graph/badge.svg?token=F1EF4JTFBU)](https://codecov.io/gh/lealceldeiro/backend-coding-test)
 
 # Spring Boot to-do app challenge
 
