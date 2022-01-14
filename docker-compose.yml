@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+
+  rp_mysql_db:
+    image: mysql:8.0.27
+    ports:
+      - "3306:3306"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.70"
+          memory: "512M"
+    volumes:
+      - rp_mysql_data:/var/lib/rp_mysql/data
+    environment:
+      # https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-more-topics.html
+      MYSQL_ROOT_PASSWORD: rpmysqlrootpswd
+      MYSQL_USER: rpmysqlsu
+      MYSQL_PASSWORD: rpmysqlpswd
+      MYSQL_DATABASE: rp_mysql_db
+      MYSQL_ROOT_HOST: 172.17.0.1
+
+volumes:
+  rp_mysql_data:
