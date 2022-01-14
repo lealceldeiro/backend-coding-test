@@ -4,9 +4,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TaskService {
-    Page<TaskEntity> getTasks(Pageable pageable);
-    TaskEntity getTask(int taskId);
+    Page<TaskDto> getTasks(Pageable pageable);
+
+    TaskDto getTask(int taskId);
+
     void createTask(TaskDto taskDto);
-    void updateTask(int taskId, TaskDto taskDto);
+
+    void updateTask(TaskDto taskDto);
+
     void deleteTask(int taskId);
 }

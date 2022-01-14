@@ -21,7 +21,7 @@ class TaskServiceImplTest {
 
     @Test
     void getTask() {
-        var taskEntityStub = TestsUtil.taskEntityStub();
+        var taskEntityStub = TestsUtil.taskDtoStub();
 
         var actualTask = taskService.getTask(taskEntityStub.getId());
 
@@ -36,16 +36,15 @@ class TaskServiceImplTest {
 
     @Test
     void updateTask() {
-        var taskEntity = TestsUtil.taskEntityStub();
         var taskDto = TestsUtil.taskDtoStub();
 
-        taskService.updateTask(taskEntity.getId(), taskDto);
+        taskService.updateTask(taskDto);
     }
 
     @Test
     void deleteTask() {
-        var taskEntity = TestsUtil.taskEntityStub();
+        var taskDto = TestsUtil.taskDtoStub();
 
-        taskService.deleteTask(taskEntity.getId());
+        taskService.deleteTask(taskDto.getId());
     }
 }

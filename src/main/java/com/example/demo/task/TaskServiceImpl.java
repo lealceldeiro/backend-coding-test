@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskServiceImpl implements TaskService {
     @Override
-    public Page<TaskEntity> getTasks(Pageable pageable) {
+    public Page<TaskDto> getTasks(Pageable pageable) {
         return null;
     }
 
     @Override
-    public TaskEntity getTask(int taskId) {
+    public TaskDto getTask(int taskId) {
         return null;
     }
 
@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(int taskId, final TaskDto taskDto) {
+    public void updateTask(TaskDto taskDto) {
 
     }
 

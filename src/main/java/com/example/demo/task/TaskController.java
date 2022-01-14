@@ -24,12 +24,12 @@ public class TaskController {
     }
 
     @GetMapping
-    public Page<TaskEntity> getTasks(Pageable pageable) {
+    public Page<TaskDto> getTasks(Pageable pageable) {
         return taskService.getTasks(pageable);
     }
 
     @GetMapping("/{taskId}")
-    public TaskEntity getTask(@PathVariable int taskId) {
+    public TaskDto getTask(@PathVariable int taskId) {
         return taskService.getTask(taskId);
     }
 
@@ -39,10 +39,10 @@ public class TaskController {
         taskService.createTask(taskDto);
     }
 
-    @PutMapping("/{taskId}")
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTask(@PathVariable int taskId, @Validated @RequestBody TaskDto taskDto) {
-        taskService.updateTask(taskId, taskDto);
+    public void updateTask(@Validated @RequestBody TaskDto taskDto) {
+        taskService.updateTask(taskDto);
     }
 
     @DeleteMapping("/{taskId}")

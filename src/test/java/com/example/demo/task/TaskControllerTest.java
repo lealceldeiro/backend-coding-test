@@ -17,8 +17,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,7 +43,7 @@ class TaskControllerTest {
 
     @Test
     void getTasks() throws Exception {
-        var taskStub = TestsUtil.taskEntityStub();
+        var taskStub = TestsUtil.taskDtoStub();
         when(taskService.getTasks(any(Pageable.class))).thenReturn(TestsUtil.pageOf(taskStub));
 
         mockMvc.perform(MockMvcRequestBuilders.get(TASK_URL))
@@ -60,7 +58,7 @@ class TaskControllerTest {
 
     @Test
     void getTask() throws Exception {
-        var taskStub = TestsUtil.taskEntityStub();
+        var taskStub = TestsUtil.taskDtoStub();
         when(taskService.getTask(taskStub.getId())).thenReturn(taskStub);
 
         mockMvc.perform(MockMvcRequestBuilders.get(TASK_URL + "/{taskId}", taskStub.getId()))
@@ -75,10 +73,9 @@ class TaskControllerTest {
     void createTask() throws Exception {
         var dtoStub = TestsUtil.taskDtoStub();
 
-        mockMvc.perform(post(TASK_URL)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .characterEncoding(StandardCharsets.UTF_8.toString())
-                                .content(MAPPER.writeValueAsBytes(dtoStub)))
+        mockMvc.perform(post(TASK_URL).contentType(MediaType.APPLICATION_JSON)
+                                      .characterEncoding(StandardCharsets.UTF_8.toString())
+                                      .content(MAPPER.writeValueAsBytes(dtoStub)))
                .andExpect(status().isCreated());
 
         verify(taskService, times(1)).createTask(dtoStub);
@@ -98,26 +95,23 @@ class TaskControllerTest {
     @Test
     void updateTask() throws Exception {
         var dtoStub = TestsUtil.taskDtoStub();
-        var taskId = TestsUtil.RANDOM.nextInt();
 
-        mockMvc.perform(put(TASK_URL + "/{taskId}", taskId)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .characterEncoding(StandardCharsets.UTF_8.toString())
-                                .content(MAPPER.writeValueAsBytes(dtoStub)))
+        mockMvc.perform(put(TASK_URL).contentType(MediaType.APPLICATION_JSON)
+                                     .characterEncoding(StandardCharsets.UTF_8.toString())
+                                     .content(MAPPER.writeValueAsBytes(dtoStub)))
                .andExpect(status().isNoContent());
 
-        verify(taskService, times(1)).updateTask(taskId, dtoStub);
+        verify(taskService, times(1)).updateTask(dtoStub);
     }
 
     @Test
     void updateTaskThrowsBadRequestIfInvalidInput() throws Exception {
-        mockMvc.perform(put(TASK_URL + "/{taskId}", TestsUtil.RANDOM.nextInt())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .characterEncoding(StandardCharsets.UTF_8.toString())
-                                .content(MAPPER.writeValueAsBytes(new TaskDto())))
+        mockMvc.perform(put(TASK_URL).contentType(MediaType.APPLICATION_JSON)
+                                     .characterEncoding(StandardCharsets.UTF_8.toString())
+                                     .content(MAPPER.writeValueAsBytes(new TaskDto())))
                .andExpect(status().isBadRequest());
 
-        verify(taskService, never()).updateTask(anyInt(), any());
+        verify(taskService, never()).updateTask(any());
     }
 
     @Test

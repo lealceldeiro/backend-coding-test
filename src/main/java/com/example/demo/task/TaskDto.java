@@ -1,9 +1,13 @@
 package com.example.demo.task;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskDto {
+    private Integer id;
     @NotNull
     private String description;
     private boolean completed;
@@ -13,13 +17,23 @@ public class TaskDto {
     public TaskDto() {
     }
 
-    public TaskDto(String description, boolean completed, TaskPriority priority) {
+    public TaskDto(Integer id, String description, boolean completed, TaskPriority priority) {
+        this.id = id;
         this.description = description;
         this.completed = completed;
         this.priority = priority;
     }
 
     // region getters and setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
     }

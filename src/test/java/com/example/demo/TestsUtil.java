@@ -18,13 +18,6 @@ public final class TestsUtil {
     private TestsUtil() {
     }
 
-    public static TaskEntity taskEntityStub() {
-        var values = TaskPriority.values();
-        var priority = values[RANDOM.nextInt(values.length)];
-
-        return new TaskEntity(RANDOM.nextInt(), UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority);
-    }
-
     public static <T> Page<T> pageOf(T e) {
         return new PageImpl<>(List.of(e));
     }
@@ -33,7 +26,7 @@ public final class TestsUtil {
         var values = TaskPriority.values();
         var priority = values[RANDOM.nextInt(values.length)];
 
-        return new TaskDto(UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority);
+        return new TaskDto(RANDOM.nextInt(), UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority);
     }
 
     public static Pageable pageable() {
