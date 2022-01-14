@@ -72,11 +72,16 @@ class TaskControllerTest {
     @Test
     void createTask() throws Exception {
         var dtoStub = TestsUtil.taskDtoStub();
+        var expected = new TaskDto();
+        expected.setId(dtoStub.getId());
+
+        when(taskService.createTask(dtoStub)).thenReturn(expected);
 
         mockMvc.perform(post(TASK_URL).contentType(MediaType.APPLICATION_JSON)
                                       .characterEncoding(StandardCharsets.UTF_8.toString())
                                       .content(MAPPER.writeValueAsBytes(dtoStub)))
-               .andExpect(status().isCreated());
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("id").value(expected.getId()));
 
         verify(taskService, times(1)).createTask(dtoStub);
     }

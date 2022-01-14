@@ -10,7 +10,7 @@ public class TaskDto {
     private Integer id;
     @NotNull
     private String description;
-    private boolean completed;
+    private Boolean completed;
     @NotNull
     private TaskPriority priority;
 
@@ -38,15 +38,15 @@ public class TaskDto {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public boolean isCompleted() {
+    public Boolean isCompleted() {
         return completed;
     }
 
-    public void setCompleted(final boolean completed) {
+    public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
 
@@ -54,7 +54,7 @@ public class TaskDto {
         return priority;
     }
 
-    public void setPriority(final TaskPriority priority) {
+    public void setPriority(TaskPriority priority) {
         this.priority = priority;
     }
     // endregion

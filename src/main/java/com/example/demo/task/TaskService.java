@@ -8,7 +8,7 @@ public interface TaskService {
 
     TaskDto getTask(int taskId);
 
-    void createTask(TaskDto taskDto);
+    TaskDto createTask(TaskDto taskDto);
 
     void updateTask(TaskDto taskDto);
 
