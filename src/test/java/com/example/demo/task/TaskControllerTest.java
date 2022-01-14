@@ -1,6 +1,8 @@
 package com.example.demo.task;
 
 import com.example.demo.TestsUtil;
+import com.example.demo.exception.AppExceptionHandler;
+import com.example.demo.exception.TaskNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +13,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableWebMvc
 @AutoConfigureMockMvc
 @EnableSpringDataWebSupport
-@SpringBootTest(classes = TaskController.class)
+@SpringBootTest(classes = {TaskController.class, AppExceptionHandler.class})
 class TaskControllerTest {
     private static final String TASK_URL = "/task";
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -46,7 +49,7 @@ class TaskControllerTest {
         var taskStub = TestsUtil.taskDtoStub();
         when(taskService.getTasks(any(Pageable.class))).thenReturn(TestsUtil.pageOf(taskStub));
 
-        mockMvc.perform(MockMvcRequestBuilders.get(TASK_URL))
+        mockMvc.perform(get(TASK_URL))
                .andExpect(status().isOk())
                .andExpect(jsonPath("content[*].id").value(taskStub.getId()))
                .andExpect(jsonPath("content[*].description").value(taskStub.getDescription()))
@@ -61,12 +64,20 @@ class TaskControllerTest {
         var taskStub = TestsUtil.taskDtoStub();
         when(taskService.getTask(taskStub.getId())).thenReturn(taskStub);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(TASK_URL + "/{taskId}", taskStub.getId()))
+        mockMvc.perform(get(TASK_URL + "/{taskId}", taskStub.getId()))
                .andExpect(status().isOk())
                .andExpect(jsonPath("id").value(taskStub.getId()))
                .andExpect(jsonPath("description").value(taskStub.getDescription()))
                .andExpect(jsonPath("completed").value(taskStub.isCompleted()))
                .andExpect(jsonPath("priority").value(taskStub.getPriority().toString()));
+    }
+
+    @Test
+    void getTaskThrowsNotFoundIfTheresNoEntityWithGivenId() throws Exception {
+        var notFoundId = -1;
+        when(taskService.getTask(notFoundId)).thenThrow(new TaskNotFoundException(notFoundId));
+
+        mockMvc.perform(get(TASK_URL + "/{taskId}", notFoundId)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -120,11 +131,29 @@ class TaskControllerTest {
     }
 
     @Test
+    void updateTaskThrowsNotFoundIfTheresNoEntityWithGivenId() throws Exception {
+        doThrow(new TaskNotFoundException(-1)).when(taskService).updateTask(any(TaskDto.class));
+
+        mockMvc.perform(put(TASK_URL).contentType(MediaType.APPLICATION_JSON)
+                                     .characterEncoding(StandardCharsets.UTF_8.toString())
+                                     .content(MAPPER.writeValueAsBytes(TestsUtil.taskDtoStub())))
+               .andExpect(status().isNotFound());
+    }
+
+    @Test
     void deleteTask() throws Exception {
         var taskId = TestsUtil.RANDOM.nextInt();
 
         mockMvc.perform(delete(TASK_URL + "/{taskId}", taskId)).andExpect(status().isNoContent());
 
         verify(taskService, times(1)).deleteTask(taskId);
+    }
+
+    @Test
+    void deleteTaskThrowsNotFoundIfTheresNoEntityWithGivenId() throws Exception {
+        var notFoundId = -1;
+        doThrow(new TaskNotFoundException(notFoundId)).when(taskService).deleteTask(notFoundId);
+
+        mockMvc.perform(delete(TASK_URL + "/{taskId}", notFoundId)).andExpect(status().isNotFound());
     }
 }
