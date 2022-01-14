@@ -7,7 +7,8 @@ With this challenge we want to see your skills and the quality of the code, we w
 
 1. [Java 11](https://adoptopenjdk.net/)
 2. [MySQL](https://dev.mysql.com/downloads/mysql/)
-(Optionally, if you're using Linux, you can run `docker-compose up -d mysql_db`)
+(Optionally, if have installed [docker](https://docs.docker.com/) and
+[docker-compose](https://docs.docker.com/compose/), you can run `docker-compose up -d rp_mysql_db`)
 
 ## Objectives
 
