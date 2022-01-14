@@ -17,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -109,13 +111,13 @@ class TaskControllerTest {
 
     @Test
     void updateTaskThrowsBadRequestIfInvalidInput() throws Exception {
-        mockMvc.perform(put(TASK_URL)
+        mockMvc.perform(put(TASK_URL + "/{taskId}", TestsUtil.RANDOM.nextInt())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .characterEncoding(StandardCharsets.UTF_8.toString())
                                 .content(MAPPER.writeValueAsBytes(new TaskDto())))
                .andExpect(status().isBadRequest());
 
-        verify(taskService, never()).updateTask(any(), any());
+        verify(taskService, never()).updateTask(anyInt(), any());
     }
 
     @Test
