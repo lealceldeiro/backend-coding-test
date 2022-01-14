@@ -18,8 +18,7 @@ public class TaskEntity {
     public TaskEntity() {
     }
 
-    public TaskEntity(int id, String description, boolean completed, TaskPriority priority) {
-        this.id = id;
+    public TaskEntity(String description, boolean completed, TaskPriority priority) {
         this.description = description;
         this.completed = completed;
         this.priority = priority;
