@@ -5,6 +5,7 @@ import com.example.demo.task.TaskEntity;
 import com.example.demo.task.TaskPriority;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -33,5 +34,9 @@ public final class TestsUtil {
         var priority = values[RANDOM.nextInt(values.length)];
 
         return new TaskDto(UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority);
+    }
+
+    public static Pageable pageable() {
+        return Pageable.unpaged();
     }
 }
