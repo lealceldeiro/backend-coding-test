@@ -1,0 +1,61 @@
+GET http://localhost:8443/task
+Accept: application/json
+
+###
+
+POST http://localhost:8443/task
+Accept: application/json
+Content-Type: application/json
+Content-Encoding: UTF-8
+
+{
+  "description": "Lorem ipsum dolor sit amet, id vide bonorum eloquentiam duo. Officiis iracundia consetetur no per.",
+  "completed": "false",
+  "priority": "MEDIUM"
+}
+
+###
+# OK
+GET http://localhost:8443/task/1
+Accept: application/json
+
+###
+# Not found
+GET http://localhost:8443/task/-1
+Accept: application/json
+
+###
+# OK, if there's a task with id 2
+PUT http://localhost:8443/task
+Accept: application/json
+Content-Type: application/json
+Content-Encoding: UTF-8
+
+{
+  "id": 2,
+  "description": "In facilis euripidis pri doe. Vis liber assueverit reprehendunt te, cotidieque persequeris in pri.",
+  "completed": "true",
+  "priority": "MEDIUM"
+}
+
+###
+# Not found
+PUT http://localhost:8443/task
+Accept: application/json
+Content-Type: application/json
+Content-Encoding: UTF-8
+
+{
+  "id": -1,
+  "description": "",
+  "completed": "true",
+  "priority": "LOW"
+}
+
+###
+# OK if there's a task with id 1
+DELETE http://localhost:8443/task/1
+
+###
+# Not found
+DELETE http://localhost:8443/task/-1
