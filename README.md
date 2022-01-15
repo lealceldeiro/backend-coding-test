@@ -10,8 +10,10 @@ With this challenge we want to see your skills and the quality of the code, we w
 
 1. [Java 11](https://adoptopenjdk.net/)
 2. [MySQL](https://dev.mysql.com/downloads/mysql/)
-(Optionally, if have installed [docker](https://docs.docker.com/) and
-[docker-compose](https://docs.docker.com/compose/), you can run `docker-compose up -d rp_mysql_db`)
+
+(Optionally, if you have installed [docker](https://docs.docker.com/) and
+[docker-compose](https://docs.docker.com/compose/), you can run `docker-compose up -d rp_mysql_db rp_springbootapp` from
+the project root directory -- in this case there's no need to configure any property, like DB connection parameters)
 
 ## Objectives
 
