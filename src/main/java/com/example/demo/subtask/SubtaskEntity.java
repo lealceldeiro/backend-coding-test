@@ -2,6 +2,7 @@ package com.example.demo.subtask;
 
 import com.example.demo.task.TaskEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -18,11 +19,16 @@ import java.util.Objects;
 // composite structure could have been created using the same TaskEntity
 @Setter
 @Getter
+@NoArgsConstructor
 @Entity
 public class SubtaskEntity {
     @Id
     @GeneratedValue
     private int id;
+
+    public SubtaskEntity(int id) {
+        this.id = id;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private TaskEntity parentTask;
