@@ -25,5 +25,23 @@ services:
       MYSQL_DATABASE: rp_mysql_db
       MYSQL_ROOT_HOST: 172.17.0.1
 
+  rp_springbootapp:
+    image: rp_springbootapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
+    depends_on:
+      - rp_mysql_db
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 10
+      replicas: 1
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://rp_mysql_db:3306/rp_mysql_db?serverTimezone=UTC
+
 volumes:
   rp_mysql_data:
