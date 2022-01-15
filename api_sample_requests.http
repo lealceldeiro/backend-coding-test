@@ -12,6 +12,18 @@ Accept: application/json
 
 ###
 
+# Sorted by date created desc
+GET http://localhost:8443/task?sort=createdAt,desc
+Accept: application/json
+
+###
+
+# Sorted by date created asc
+GET http://localhost:8443/task?sort=createdAt,asc
+Accept: application/json
+
+###
+
 # Sorted by description asc
 GET http://localhost:8443/task?sort=description,asc
 Accept: application/json
