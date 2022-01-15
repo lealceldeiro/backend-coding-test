@@ -79,7 +79,7 @@ class TaskServiceImplTest {
 
         when(taskRepository.findById(taskDto.getId())).thenReturn(Optional.of(entity));
 
-        taskService.updateTask(taskDto);
+        taskService.updateTask(taskDto.getId(), taskDto);
 
         verify(taskTransformer, times(1)).updateEntity(entity, taskDto);
     }
@@ -89,7 +89,8 @@ class TaskServiceImplTest {
         when(taskRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         var stub = TestsUtil.taskDtoStub();
-        assertThrows(TaskNotFoundException.class, () -> taskService.updateTask(stub));
+        var taskId = stub.getId();
+        assertThrows(TaskNotFoundException.class, () -> taskService.updateTask(taskId, stub));
     }
 
     @Test

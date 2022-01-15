@@ -10,7 +10,7 @@ public interface TaskService {
 
     TaskDto createTask(TaskDto taskDto);
 
-    void updateTask(TaskDto taskDto);
+    void updateTask(int taskId, TaskDto taskDto);
 
     void deleteTask(int taskId);
 }

@@ -39,16 +39,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(TaskDto taskDto) {
-        var taskEntity = taskRepository.findById(taskDto.getId())
-                                       .orElseThrow(() -> new TaskNotFoundException(taskDto.getId()));
+    public void updateTask(int taskId, TaskDto taskDto) {
+        var taskEntity = taskRepository.findById(taskId)
+                                       .orElseThrow(() -> new TaskNotFoundException(taskId));
         taskTransformer.updateEntity(taskEntity, taskDto);
     }
 
     @Override
     public void deleteTask(int taskId) {
         if (taskRepository.deleteEntityWithId(taskId) < 1) {
-            throw new TaskNotFoundException(1);
+            throw new TaskNotFoundException(taskId);
         }
     }
 }

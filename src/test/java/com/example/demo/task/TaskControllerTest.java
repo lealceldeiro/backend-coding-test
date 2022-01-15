@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -112,31 +113,32 @@ class TaskControllerTest {
     void updateTask() throws Exception {
         var dtoStub = TestsUtil.taskDtoStub();
 
-        mockMvc.perform(put(TASK_URL).contentType(MediaType.APPLICATION_JSON)
-                                     .characterEncoding(StandardCharsets.UTF_8.toString())
-                                     .content(MAPPER.writeValueAsBytes(dtoStub)))
+        mockMvc.perform(put(TASK_URL + "/{taskId}", dtoStub.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .characterEncoding(StandardCharsets.UTF_8.toString())
+                                .content(MAPPER.writeValueAsBytes(dtoStub)))
                .andExpect(status().isNoContent());
 
-        verify(taskService, times(1)).updateTask(dtoStub);
+        verify(taskService, times(1)).updateTask(dtoStub.getId(), dtoStub);
     }
 
     @Test
     void updateTaskThrowsBadRequestIfInvalidInput() throws Exception {
-        mockMvc.perform(put(TASK_URL).contentType(MediaType.APPLICATION_JSON)
-                                     .characterEncoding(StandardCharsets.UTF_8.toString())
-                                     .content(MAPPER.writeValueAsBytes(new TaskDto())))
+        mockMvc.perform(put(TASK_URL + "/{taskId}", 1).contentType(MediaType.APPLICATION_JSON)
+                                                      .characterEncoding(StandardCharsets.UTF_8.toString())
+                                                      .content(MAPPER.writeValueAsBytes(new TaskDto())))
                .andExpect(status().isBadRequest());
-
-        verify(taskService, never()).updateTask(any());
     }
 
     @Test
     void updateTaskThrowsNotFoundIfTheresNoEntityWithGivenId() throws Exception {
-        doThrow(new TaskNotFoundException(-1)).when(taskService).updateTask(any(TaskDto.class));
+        var notFoundId = -1;
+        doThrow(new TaskNotFoundException(notFoundId)).when(taskService).updateTask(anyInt(), any(TaskDto.class));
 
-        mockMvc.perform(put(TASK_URL).contentType(MediaType.APPLICATION_JSON)
-                                     .characterEncoding(StandardCharsets.UTF_8.toString())
-                                     .content(MAPPER.writeValueAsBytes(TestsUtil.taskDtoStub())))
+        mockMvc.perform(put(TASK_URL + "/{taskId}", notFoundId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .characterEncoding(StandardCharsets.UTF_8.toString())
+                                .content(MAPPER.writeValueAsBytes(TestsUtil.taskDtoStub())))
                .andExpect(status().isNotFound());
     }
 

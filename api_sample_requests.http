@@ -15,8 +15,8 @@ Content-Encoding: UTF-8
 }
 
 ###
-# OK
-GET http://localhost:8443/task/1
+# OK, if there's a task with id 2
+GET http://localhost:8443/task/2
 Accept: application/json
 
 ###
@@ -26,27 +26,25 @@ Accept: application/json
 
 ###
 # OK, if there's a task with id 2
-PUT http://localhost:8443/task
+PUT http://localhost:8443/task/2
 Accept: application/json
 Content-Type: application/json
 Content-Encoding: UTF-8
 
 {
-  "id": 2,
   "description": "In facilis euripidis pri doe. Vis liber assueverit reprehendunt te, cotidieque persequeris in pri.",
   "completed": "true",
-  "priority": "MEDIUM"
+  "priority": "HIGH"
 }
 
 ###
 # Not found
-PUT http://localhost:8443/task
+PUT http://localhost:8443/task/-1
 Accept: application/json
 Content-Type: application/json
 Content-Encoding: UTF-8
 
 {
-  "id": -1,
   "description": "",
   "completed": "true",
   "priority": "LOW"

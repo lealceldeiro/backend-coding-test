@@ -39,10 +39,10 @@ public class TaskController {
         return taskService.createTask(taskDto);
     }
 
-    @PutMapping
+    @PutMapping("/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTask(@Validated @RequestBody TaskDto taskDto) {
-        taskService.updateTask(taskDto);
+    public void updateTask(@PathVariable int taskId, @Validated @RequestBody TaskDto taskDto) {
+        taskService.updateTask(taskId, taskDto);
     }
 
     @DeleteMapping("/{taskId}")
