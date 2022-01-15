@@ -2,6 +2,8 @@ package com.example.demo.task;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Component
@@ -13,12 +15,16 @@ public class TaskTransformer {
     }
 
     public TaskDto toDto(TaskEntity entity) {
-        return new TaskDto(entity.getId(), entity.getDescription(), entity.isCompleted(), entity.getPriority());
+        return new TaskDto(entity.getId(), entity.getDescription(), entity.isCompleted(), entity.getPriority(),
+                           entity.getCreatedAt());
     }
 
     public TaskEntity toEntity(TaskDto dto) {
         boolean completed = Optional.ofNullable(dto.isCompleted()).orElse(Boolean.FALSE);
-        return new TaskEntity(dto.getDescription(), completed, dto.getPriority());
+        // probably some configuration to allow flexibility in the timezone to use here would be nice
+        var createdAt = LocalDateTime.now(ZoneId.of("UTC"));
+
+        return new TaskEntity(dto.getDescription(), completed, dto.getPriority(), createdAt);
     }
 
     public void updateEntity(TaskEntity entity, TaskDto dto) {

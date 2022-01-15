@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public final class TestsUtil {
         var values = TaskPriority.values();
         var priority = values[RANDOM.nextInt(values.length)];
 
-        var entity = new TaskEntity(UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority);
+        var entity = new TaskEntity(UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority, LocalDateTime.now());
         entity.setId(RANDOM.nextInt());
 
         return entity;
@@ -36,7 +37,7 @@ public final class TestsUtil {
     public static TaskDto taskDtoStub() {
         TaskPriority priority = randomPriority();
 
-        return new TaskDto(RANDOM.nextInt(), UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority);
+        return new TaskDto(RANDOM.nextInt(), UUID.randomUUID().toString(), RANDOM.nextBoolean(), priority, null);
     }
 
     public static TaskPriority randomPriority() {

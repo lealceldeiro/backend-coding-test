@@ -1,8 +1,10 @@
 package com.example.demo.task;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -14,14 +16,18 @@ public class TaskDto {
     @NotNull
     private TaskPriority priority;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
     public TaskDto() {
     }
 
-    public TaskDto(Integer id, String description, boolean completed, TaskPriority priority) {
+    public TaskDto(Integer id, String description, boolean completed, TaskPriority priority, LocalDateTime createdAt) {
         this.id = id;
         this.description = description;
         this.completed = completed;
         this.priority = priority;
+        this.createdAt = createdAt;
     }
 
     // region getters and setters
@@ -56,6 +62,14 @@ public class TaskDto {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
     // endregion
 

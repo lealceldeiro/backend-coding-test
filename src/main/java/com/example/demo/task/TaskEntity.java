@@ -3,6 +3,7 @@ package com.example.demo.task;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 public class TaskEntity {
@@ -15,13 +16,16 @@ public class TaskEntity {
     private boolean completed;
     private TaskPriority priority;
 
+    private LocalDateTime createdAt;
+
     public TaskEntity() {
     }
 
-    public TaskEntity(String description, boolean completed, TaskPriority priority) {
+    public TaskEntity(String description, boolean completed, TaskPriority priority, LocalDateTime createdAt) {
         this.description = description;
         this.completed = completed;
         this.priority = priority;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -54,5 +58,13 @@ public class TaskEntity {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
