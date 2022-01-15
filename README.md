@@ -1,5 +1,31 @@
 [![Java CI with Maven](https://github.com/lealceldeiro/backend-coding-test/actions/workflows/maven.yml/badge.svg)](https://github.com/lealceldeiro/backend-coding-test/actions/workflows/maven.yml)
 [![codecov](https://codecov.io/gh/lealceldeiro/backend-coding-test/branch/master/graph/badge.svg?token=F1EF4JTFBU)](https://codecov.io/gh/lealceldeiro/backend-coding-test)
+# Disclaimer
+
+If you arrived here because you're being evaluated, and you're expected to complete this technical task (originally
+forked from https://github.com/RatedPower/backend-coding-test) on your own, please **refrain** from copying the solution
+implemented here (let along present it as your own).
+
+If you'd like to (maybe) explore an approach other than your own, and/or only for studying, or any other purpose which
+is not to get a benefit from the content presented in this repo (such as a good result in a technical interview which
+evaluates this task) you're free to clone it and explore it.
+
+This code contains a mix from the original repo and code of my own, but neither I am nor I claim to be the author of it.
+
+If, for any reason, I'm asked by the original author (https://github.com/RatedPower) to remove this fork from my GitHub
+repositories, I'll do so without any previous warning to any third party.
+
+## Addendum to below content
+
+An alternative to the required tools mentioned below, is to have installed [docker](https://docs.docker.com/) and
+[docker-compose](https://docs.docker.com/compose/). If that's the case you can run
+`docker-compose up -d rp_mysql_db rp_springbootapp` from the project root directory. In this case there's no need to
+configure any property (like DB connection parameters).
+
+To *test* the application endpoints, you can use as a reference the provided
+[API Sample HTTP Requests](./api_sample_requests.http).
+
+---
 
 # Spring Boot to-do app challenge
 
@@ -10,10 +36,6 @@ With this challenge we want to see your skills and the quality of the code, we w
 
 1. [Java 11](https://adoptopenjdk.net/)
 2. [MySQL](https://dev.mysql.com/downloads/mysql/)
-
-(Optionally, if you have installed [docker](https://docs.docker.com/) and
-[docker-compose](https://docs.docker.com/compose/), you can run `docker-compose up -d rp_mysql_db rp_springbootapp` from
-the project root directory -- in this case there's no need to configure any property, like DB connection parameters)
 
 ## Objectives
 
