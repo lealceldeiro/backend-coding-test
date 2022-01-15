@@ -74,6 +74,12 @@ GET http://localhost:8443/task?filter=priority:HIGH&filter=priority:MEDIUM&filte
 Accept: application/json
 
 ###
+
+# Filter by priority (HIGH or MEDIUMT) and then sort (by priority desc -- higher priority on top, and by description ordered alphabetically)
+GET http://localhost:8443/task?filter=priority:HIGH&filter=priority:MEDIUM&filter=criteria:or&sort=priority,desc&sort=description,asc
+Accept: application/json
+
+###
 # GET http request that returns a specific task by its ID.
 # Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value). If there's no task with
 #       the given id, it'll return 404. An example of that is the below request.
