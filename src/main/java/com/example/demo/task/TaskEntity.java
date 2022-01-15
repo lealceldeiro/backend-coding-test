@@ -1,6 +1,6 @@
 package com.example.demo.task;
 
-import com.example.demo.subtaskentity.SubtaskEntity;
+import com.example.demo.subtask.SubtaskEntity;
 import org.hibernate.Hibernate;
 
 import javax.persistence.CascadeType;

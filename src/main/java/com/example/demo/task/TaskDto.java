@@ -82,20 +82,22 @@ public class TaskDto {
             return false;
         }
         TaskDto other = (TaskDto) o;
-        return completed == other.isCompleted()
+        return id.equals(other.getId())
+               && completed == other.isCompleted()
                && description.equals(other.getDescription())
                && priority == other.getPriority();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description, completed, priority);
+        return Objects.hash(id, description, completed, priority);
     }
 
     @Override
     public String toString() {
         return "TaskDto{" +
-               "description='" + description + '\'' +
+               "id=" + id +
+               ", description='" + description + '\'' +
                ", completed=" + completed +
                ", priority=" + priority +
                '}';

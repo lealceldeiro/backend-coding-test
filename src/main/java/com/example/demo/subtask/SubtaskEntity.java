@@ -1,4 +1,4 @@
-package com.example.demo.subtaskentity;
+package com.example.demo.subtask;
 
 import com.example.demo.task.TaskEntity;
 import org.hibernate.Hibernate;
