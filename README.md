@@ -23,7 +23,9 @@ An alternative to the required tools mentioned below, is to have installed [dock
 configure any property (like DB connection parameters).
 
 To *test* the application endpoints, you can use as a reference the provided
-[API Sample HTTP Requests](./api_sample_requests.http).
+
+* [Task API Sample HTTP Requests](./api_sample_requests_task.http) and
+* [Subtask API Sample HTTP Requests](./api_sample_requests_subtask.http).
 
 ---
 
