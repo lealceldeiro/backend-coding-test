@@ -1,6 +1,8 @@
 package com.example.demo.subtask;
 
 import com.example.demo.task.TaskEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.CascadeType;
@@ -14,6 +16,8 @@ import java.util.Objects;
 // It's not clear whether a subtask is actually a task (maybe with some more attributes), so I created a brand-new class
 // as stated in the README.md file. If a subtask is going to hold the same attributes that a task holds, then a
 // composite structure could have been created using the same TaskEntity
+@Setter
+@Getter
 @Entity
 public class SubtaskEntity {
     @Id
@@ -22,16 +26,6 @@ public class SubtaskEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private TaskEntity parentTask;
-
-    // region getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
-    }
-    // endregion
 
     @Override
     public boolean equals(Object other) {

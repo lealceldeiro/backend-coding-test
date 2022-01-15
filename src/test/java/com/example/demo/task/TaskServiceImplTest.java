@@ -60,7 +60,7 @@ class TaskServiceImplTest {
     @Test
     void createTask() {
         var taskDto = TestsUtil.taskDtoStub();
-        var entity = new TaskEntity(taskDto.getDescription(), taskDto.isCompleted(), taskDto.getPriority(),
+        var entity = new TaskEntity(taskDto.getDescription(), taskDto.getCompleted(), taskDto.getPriority(),
                                     LocalDateTime.now());
         entity.setId(TestsUtil.RANDOM.nextInt());
 

@@ -1,5 +1,6 @@
 package com.example.demo.task;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,14 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/task")
 public class TaskController {
     private final TaskService taskService;
-
-    private TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     @GetMapping
     public Page<TaskDto> getTasks(Pageable pageable,

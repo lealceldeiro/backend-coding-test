@@ -55,7 +55,7 @@ class TaskControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("content[*].id").value(taskStub.getId()))
                .andExpect(jsonPath("content[*].description").value(taskStub.getDescription()))
-               .andExpect(jsonPath("content[*].completed").value(taskStub.isCompleted()))
+               .andExpect(jsonPath("content[*].completed").value(taskStub.getCompleted()))
                .andExpect(jsonPath("content[*].priority").value(taskStub.getPriority().toString()));
 
         verify(taskService, times(1)).getTasks(any(Pageable.class), any(TaskSearchSpecification.class));
@@ -70,7 +70,7 @@ class TaskControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("id").value(taskStub.getId()))
                .andExpect(jsonPath("description").value(taskStub.getDescription()))
-               .andExpect(jsonPath("completed").value(taskStub.isCompleted()))
+               .andExpect(jsonPath("completed").value(taskStub.getCompleted()))
                .andExpect(jsonPath("priority").value(taskStub.getPriority().toString()));
     }
 

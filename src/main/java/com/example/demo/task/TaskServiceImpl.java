@@ -1,6 +1,7 @@
 package com.example.demo.task;
 
 import com.example.demo.exception.TaskNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -11,14 +12,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskTransformer taskTransformer;
-
-    public TaskServiceImpl(TaskRepository taskRepository, TaskTransformer taskTransformer) {
-        this.taskRepository = taskRepository;
-        this.taskTransformer = taskTransformer;
-    }
 
     @Override
     @Transactional(readOnly = true)

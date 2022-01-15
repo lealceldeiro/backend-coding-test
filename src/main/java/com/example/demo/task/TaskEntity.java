@@ -1,6 +1,9 @@
 package com.example.demo.task;
 
 import com.example.demo.subtask.SubtaskEntity;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.CascadeType;
@@ -14,6 +17,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Setter
+@Getter
 @Entity
 public class TaskEntity {
 
@@ -27,6 +32,8 @@ public class TaskEntity {
 
     private LocalDateTime createdAt;
 
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<SubtaskEntity> subtasks;
 
@@ -41,48 +48,6 @@ public class TaskEntity {
         this.createdAt = createdAt;
         this.subtasks = new HashSet<>();
     }
-
-    // region
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public TaskPriority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(TaskPriority priority) {
-        this.priority = priority;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(final LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    // endregion
 
     public void addSubtask(SubtaskEntity subtaskEntity) {
         subtasks.add(subtaskEntity);

@@ -20,7 +20,7 @@ public class TaskTransformer {
     }
 
     public TaskEntity toEntity(TaskDto dto) {
-        boolean completed = Optional.ofNullable(dto.isCompleted()).orElse(Boolean.FALSE);
+        boolean completed = Optional.ofNullable(dto.getCompleted()).orElse(Boolean.FALSE);
         // probably some configuration to allow flexibility in the timezone to use here would be nice
         var createdAt = LocalDateTime.now(ZoneId.of("UTC"));
 
@@ -28,7 +28,7 @@ public class TaskTransformer {
     }
 
     public void updateEntity(TaskEntity entity, TaskDto dto) {
-        boolean completed = Optional.ofNullable(dto.isCompleted()).orElse(Boolean.FALSE);
+        boolean completed = Optional.ofNullable(dto.getCompleted()).orElse(Boolean.FALSE);
         entity.setDescription(dto.getDescription());
         entity.setCompleted(completed);
         entity.setPriority(dto.getPriority());
