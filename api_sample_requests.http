@@ -50,6 +50,30 @@ GET http://localhost:8443/task?sort=completed,asc&sort=priority,desc&sort=descri
 Accept: application/json
 
 ###
+
+# Filter completed tasks
+GET http://localhost:8443/task?filter=completed:true
+Accept: application/json
+
+###
+
+# Filter by priority
+GET http://localhost:8443/task?filter=priority:MEDIUM
+Accept: application/json
+
+###
+
+# Filter by completed and priority
+GET http://localhost:8443/task?filter=completed:false&filter=priority:HIGH
+Accept: application/json
+
+###
+
+# Filter by priority using or
+GET http://localhost:8443/task?filter=priority:HIGH&filter=priority:MEDIUM&filter=criteria:or
+Accept: application/json
+
+###
 # GET http request that returns a specific task by its ID.
 # Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value). If there's no task with
 #       the given id, it'll return 404. An example of that is the below request.

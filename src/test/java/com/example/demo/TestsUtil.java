@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.task.TaskDto;
 import com.example.demo.task.TaskEntity;
 import com.example.demo.task.TaskPriority;
+import com.example.demo.task.TaskSearchSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -45,5 +46,9 @@ public final class TestsUtil {
 
     public static Pageable pageable() {
         return Pageable.unpaged();
+    }
+
+    public static TaskSearchSpecification searchSpec() {
+        return new TaskSearchSpecification(null);
     }
 }

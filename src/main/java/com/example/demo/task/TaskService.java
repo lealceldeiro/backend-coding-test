@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TaskService {
-    Page<TaskDto> getTasks(Pageable pageable);
+    Page<TaskDto> getTasks(Pageable pageable, TaskSearchSpecification taskSearchSpecification);
 
     TaskDto getTask(int taskId);
 

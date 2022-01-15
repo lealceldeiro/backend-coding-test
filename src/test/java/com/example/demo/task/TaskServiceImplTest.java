@@ -31,9 +31,10 @@ class TaskServiceImplTest {
     @Test
     void getTasks() {
         var expected = TestsUtil.pageOf(TestsUtil.taskDtoStub());
-        when(taskRepository.getAll(any(Pageable.class))).thenReturn(expected);
+        when(taskRepository.findAll(any(TaskSearchSpecification.class), any(Pageable.class)))
+                .thenReturn(expected);
 
-        var actualTasks = taskService.getTasks(TestsUtil.pageable());
+        var actualTasks = taskService.getTasks(TestsUtil.pageable(), TestsUtil.searchSpec());
 
         assertEquals(expected, actualTasks);
     }

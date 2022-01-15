@@ -48,7 +48,8 @@ class TaskControllerTest {
     @Test
     void getTasks() throws Exception {
         var taskStub = TestsUtil.taskDtoStub();
-        when(taskService.getTasks(any(Pageable.class))).thenReturn(TestsUtil.pageOf(taskStub));
+        when(taskService.getTasks(any(Pageable.class), any(TaskSearchSpecification.class)))
+                .thenReturn(TestsUtil.pageOf(taskStub));
 
         mockMvc.perform(get(TASK_URL))
                .andExpect(status().isOk())
@@ -57,7 +58,7 @@ class TaskControllerTest {
                .andExpect(jsonPath("content[*].completed").value(taskStub.isCompleted()))
                .andExpect(jsonPath("content[*].priority").value(taskStub.getPriority().toString()));
 
-        verify(taskService, times(1)).getTasks(any(Pageable.class));
+        verify(taskService, times(1)).getTasks(any(Pageable.class), any(TaskSearchSpecification.class));
     }
 
     @Test

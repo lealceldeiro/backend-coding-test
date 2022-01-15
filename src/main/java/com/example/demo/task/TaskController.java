@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -24,8 +27,10 @@ public class TaskController {
     }
 
     @GetMapping
-    public Page<TaskDto> getTasks(Pageable pageable) {
-        return taskService.getTasks(pageable);
+    public Page<TaskDto> getTasks(Pageable pageable,
+                                  @RequestParam(value = "filter", required = false) List<String> filters) {
+        var taskFilter = new TaskSearchSpecification(filters);
+        return taskService.getTasks(pageable, taskFilter);
     }
 
     @GetMapping("/{taskId}")
