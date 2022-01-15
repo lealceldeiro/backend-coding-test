@@ -81,6 +81,8 @@
 				</executions>
 			</plugin>
 		</plugins>
+
+		<finalName>rp_springbootapp</finalName>
 	</build>
 
 </project>
