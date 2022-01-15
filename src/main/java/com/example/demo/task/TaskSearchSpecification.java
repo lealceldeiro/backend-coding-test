@@ -15,7 +15,7 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
-public class TaskSearchSpecification implements Specification<TaskDto> {
+public class TaskSearchSpecification implements Specification<TaskEntity> {
     private static final long serialVersionUID = -2179946021301597602L;
 
     private static final String CRITERIA_AND = "and";
@@ -28,7 +28,7 @@ public class TaskSearchSpecification implements Specification<TaskDto> {
     }
 
     @Override
-    public Predicate toPredicate(Root<TaskDto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<TaskEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
         var criteriaType = getCriteriaType();
         var predicates = getPredicates(root, builder);
 
@@ -43,7 +43,7 @@ public class TaskSearchSpecification implements Specification<TaskDto> {
                       .orElse(CRITERIA_AND);
     }
 
-    private Predicate[] getPredicates(Root<TaskDto> root, CriteriaBuilder builder) {
+    private Predicate[] getPredicates(Root<TaskEntity> root, CriteriaBuilder builder) {
         return filters.stream()
                       .map(filter -> filter.split(":"))
                       .filter(keyValue -> keyValue.length >= 2)
@@ -53,12 +53,15 @@ public class TaskSearchSpecification implements Specification<TaskDto> {
     }
 
     @Nullable
-    private static Predicate predicateFromKeyValueFilter(String[] keyValueFilter, Root<TaskDto> root,
+    private static Predicate predicateFromKeyValueFilter(String[] keyValueFilter, Root<TaskEntity> root,
                                                          CriteriaBuilder builder) {
         var field = keyValueFilter[0];
         var value = keyValueFilter[1];
 
         switch (field) {
+            // instead of mapping directly to the entity field, it'd be better to decouple the actual request param,
+            // from the entity field. That's why a DTO was created in the first place, and here the same approach should
+            // be implemented as an improvement
             case "completed":
                 return builder.equal(root.get(field), Boolean.valueOf(value));
             case "priority":

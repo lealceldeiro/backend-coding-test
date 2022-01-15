@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,9 +31,11 @@ class TaskServiceImplTest {
 
     @Test
     void getTasks() {
-        var expected = TestsUtil.pageOf(TestsUtil.taskDtoStub());
         when(taskRepository.findAll(any(TaskSearchSpecification.class), any(Pageable.class)))
-                .thenReturn(expected);
+                .thenReturn(TestsUtil.pageOf(TestsUtil.taskEntityStub()));
+        var expectedDto = TestsUtil.taskDtoStub();
+        when(taskTransformer.toDto(any(TaskEntity.class))).thenReturn(expectedDto);
+        var expected = TestsUtil.pageOf(expectedDto);
 
         var actualTasks = taskService.getTasks(TestsUtil.pageable(), TestsUtil.searchSpec());
 
@@ -43,7 +46,8 @@ class TaskServiceImplTest {
     void getTask() {
         var entity = TestsUtil.taskEntityStub();
 
-        var expected = new TaskDto(entity.getId(), entity.getDescription(), entity.isCompleted(), entity.getPriority());
+        var expected = new TaskDto(entity.getId(), entity.getDescription(), entity.isCompleted(), entity.getPriority(),
+                                   entity.getCreatedAt());
 
         when(taskRepository.findById(entity.getId())).thenReturn(Optional.of(entity));
         when(taskTransformer.toDto(entity)).thenCallRealMethod();
@@ -56,7 +60,8 @@ class TaskServiceImplTest {
     @Test
     void createTask() {
         var taskDto = TestsUtil.taskDtoStub();
-        var entity = new TaskEntity(taskDto.getDescription(), taskDto.isCompleted(), taskDto.getPriority());
+        var entity = new TaskEntity(taskDto.getDescription(), taskDto.isCompleted(), taskDto.getPriority(),
+                                    LocalDateTime.now());
         entity.setId(TestsUtil.RANDOM.nextInt());
 
         var expected = new TaskDto();

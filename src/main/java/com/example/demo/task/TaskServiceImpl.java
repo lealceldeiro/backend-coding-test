@@ -2,9 +2,12 @@ package com.example.demo.task;
 
 import com.example.demo.exception.TaskNotFoundException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -20,7 +23,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional(readOnly = true)
     public Page<TaskDto> getTasks(Pageable pageable, TaskSearchSpecification taskSearchSpecification) {
-        return taskRepository.findAll(taskSearchSpecification, pageable);
+        var page = taskRepository.findAll(taskSearchSpecification, pageable);
+        var pageDtoContent = page.getContent().stream().map(taskTransformer::toDto).collect(Collectors.toList());
+        return new PageImpl<>(pageDtoContent, pageable, page.getTotalElements());
     }
 
     @Override
