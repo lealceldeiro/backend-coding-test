@@ -50,6 +50,18 @@ GET http://localhost:8443/task?sort=completed,asc&sort=priority,desc&sort=descri
 Accept: application/json
 
 ###
+# GET http request that returns a specific task by its ID.
+# Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value). If there's no task with
+#       the given id, it'll return 404. An example of that is the below request.
+GET http://localhost:8443/task/2
+Accept: application/json
+
+###
+# Not found
+GET http://localhost:8443/task/-1
+Accept: application/json
+
+###
 # POST http request that stores a new task in the database.
 # Note: The only constraints implemented here is that "description" and "priority" must not be null.
 #       There were no other constraints (like uniquness in the DB or the like) taken into account to implement this, in
@@ -64,18 +76,6 @@ Content-Encoding: UTF-8
   "completed": "false",
   "priority": "MEDIUM"
 }
-
-###
-# GET http request that returns a specific task by its ID.
-# Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value). If there's no task with
-#       the given id, it'll return 404. An example of that is the below request.
-GET http://localhost:8443/task/2
-Accept: application/json
-
-###
-# Not found
-GET http://localhost:8443/task/-1
-Accept: application/json
 
 ###
 # PUT http request that updates a specific task by its ID.
