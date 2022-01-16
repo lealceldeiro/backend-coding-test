@@ -87,6 +87,12 @@ Accept: application/json
 
 ###
 
+# Filter by priority using and
+GET http://localhost:8443/task?filter=completed:false&filter=priority:MEDIUM&filter=criteria:and
+Accept: application/json
+
+###
+
 # Filter by priority (HIGH or MEDIUMT) and then sort (by priority desc -- higher priority on top, and by description ordered alphabetically)
 GET http://localhost:8443/task?filter=priority:HIGH&filter=priority:MEDIUM&filter=criteria:or&sort=priority,desc&sort=description,asc
 Accept: application/json
