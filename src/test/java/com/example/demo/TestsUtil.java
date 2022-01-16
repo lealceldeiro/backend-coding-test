@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.subtask.SubtaskDto;
+import com.example.demo.subtask.SubtaskEntity;
 import com.example.demo.task.TaskDto;
 import com.example.demo.task.TaskEntity;
 import com.example.demo.task.TaskPriority;
@@ -51,5 +53,20 @@ public final class TestsUtil {
 
     public static TaskSearchSpecification searchSpec() {
         return new TaskSearchSpecification(null);
+    }
+
+    public static SubtaskEntity subtaskEntityStub() {
+        var subtask = new SubtaskEntity();
+        subtask.setId(RANDOM.nextInt());
+        subtask.setParentTask(taskEntityStub());
+
+        return subtask;
+    }
+
+    public static SubtaskDto subtaskDtoStub() {
+        var dto = new SubtaskDto();
+        dto.setId(RANDOM.nextInt());
+
+        return dto;
     }
 }
