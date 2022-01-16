@@ -79,7 +79,9 @@ class TaskControllerTest {
         var notFoundId = -1;
         when(taskService.getTask(notFoundId)).thenThrow(new TaskNotFoundException(notFoundId));
 
-        mockMvc.perform(get(TASK_URL + "/{taskId}", notFoundId)).andExpect(status().isNotFound());
+        mockMvc.perform(get(TASK_URL + "/{taskId}", notFoundId))
+               .andExpect(status().isNotFound())
+               .andExpect(jsonPath("message").value("Task with id " + notFoundId + " not found"));
     }
 
     @Test
@@ -140,7 +142,8 @@ class TaskControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .characterEncoding(StandardCharsets.UTF_8.toString())
                                 .content(MAPPER.writeValueAsBytes(TestsUtil.taskDtoStub())))
-               .andExpect(status().isNotFound());
+               .andExpect(status().isNotFound())
+               .andExpect(jsonPath("message").value("Task with id " + notFoundId + " not found"));
     }
 
     @Test
@@ -157,6 +160,8 @@ class TaskControllerTest {
         var notFoundId = -1;
         doThrow(new TaskNotFoundException(notFoundId)).when(taskService).deleteTask(notFoundId);
 
-        mockMvc.perform(delete(TASK_URL + "/{taskId}", notFoundId)).andExpect(status().isNotFound());
+        mockMvc.perform(delete(TASK_URL + "/{taskId}", notFoundId))
+               .andExpect(status().isNotFound())
+               .andExpect(jsonPath("message").value("Task with id " + notFoundId + " not found"));
     }
 }
