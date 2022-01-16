@@ -20,6 +20,7 @@ public class TaskSearchSpecification implements Specification<TaskEntity> {
 
     private static final String CRITERIA_AND = "and";
     private static final String CRITERIA_OR = "or";
+    private static final String SEPARATOR = ":";
 
     private final List<String> filters;
 
@@ -38,14 +39,18 @@ public class TaskSearchSpecification implements Specification<TaskEntity> {
     private String getCriteriaType() {
         return filters.stream()
                       .filter(Objects::nonNull)
-                      .filter(f -> f.startsWith("criteria:")) // this can be improved by taking the value from config
+                      // this can be improved by taking the value from config
+                      .filter(f -> f.startsWith("criteria" + SEPARATOR))
+                      .map(f -> f.split(SEPARATOR))
+                      .filter(f -> f.length >= 2)
+                      .map(f -> f[1])
                       .findFirst()
                       .orElse(CRITERIA_AND);
     }
 
     private Predicate[] getPredicates(Root<TaskEntity> root, CriteriaBuilder builder) {
         return filters.stream()
-                      .map(filter -> filter.split(":"))
+                      .map(filter -> filter.split(SEPARATOR))
                       .filter(keyValue -> keyValue.length >= 2)
                       .map(keyValue -> predicateFromKeyValueFilter(keyValue, root, builder))
                       .filter(Objects::nonNull)
