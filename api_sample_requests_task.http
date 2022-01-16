@@ -157,6 +157,7 @@ Content-Encoding: UTF-8
 # DELETE http request that deletes a task in the database.
 # Note: Returns OK, if there's a task with id 1 (1 can be replaced with any other id value). If there's no task with
 #       the given id, it'll return 404. An example of that is the below request.
+# This will remove any subtasks associated to task with id 1
 DELETE http://localhost:8443/task/1
 
 ###
