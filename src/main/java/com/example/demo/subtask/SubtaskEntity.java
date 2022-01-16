@@ -1,6 +1,7 @@
 package com.example.demo.subtask;
 
 import com.example.demo.task.TaskEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,15 +21,12 @@ import java.util.Objects;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class SubtaskEntity {
     @Id
     @GeneratedValue
     private int id;
-
-    public SubtaskEntity(int id) {
-        this.id = id;
-    }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private TaskEntity parentTask;
