@@ -28,7 +28,7 @@ public class SubtaskEntity {
     @GeneratedValue
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     private TaskEntity parentTask;
 
     @Override
