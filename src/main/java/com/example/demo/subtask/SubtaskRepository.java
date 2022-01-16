@@ -23,7 +23,7 @@ public interface SubtaskRepository extends JpaRepository<SubtaskEntity, Integer>
            + "from SubtaskEntity st "
            + "join st.parentTask "
            + "where st.parentTask.id = :parentTaskId and st.id = :subtaskId")
-    Optional<SubtaskDto> findAllWithParentTaskIdAndId(int parentTaskId, int subtaskId);
+    Optional<SubtaskDto> findOneWithParentTaskIdAndId(int parentTaskId, int subtaskId);
 
     @Query("select st "
            + "from SubtaskEntity st "

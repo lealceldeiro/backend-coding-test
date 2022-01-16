@@ -25,13 +25,13 @@ public class SubtaskServiceImpl implements SubtaskService {
     @Override
     @Transactional(readOnly = true)
     public SubtaskDto getSubtask(int taskId, int subtaskId) {
-        return subtaskRepository.findAllWithParentTaskIdAndId(taskId, subtaskId)
+        return subtaskRepository.findOneWithParentTaskIdAndId(taskId, subtaskId)
                                 .orElseThrow(() -> new SubtaskNotFoundException(taskId, subtaskId));
     }
 
     @Override
     public SubtaskDto createSubtask(int taskId, SubtaskDto subtaskDto) {
-        var task = taskRepository.getOne(taskId);
+        var task = taskRepository.getById(taskId);
         var subtaskEntity = subtaskTransformer.toEntity(subtaskDto);
         subtaskEntity.setParentTask(task);
 
