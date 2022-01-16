@@ -1,5 +1,6 @@
 package com.example.demo.subtask;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,14 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/task/{taskId}/subtask")
 public class SubtaskController {
     private final SubtaskService subtaskService;
-
-    private SubtaskController(SubtaskService subtaskService) {
-        this.subtaskService = subtaskService;
-    }
 
     @GetMapping
     public Page<SubtaskDto> getSubtasks(@PathVariable int taskId, Pageable pageable) {
