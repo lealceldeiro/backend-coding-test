@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AppExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handleTaskNotFoundException(NotFoundException notFoundException) {
-        return new ResponseEntity<>(notFoundException.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ExceptionMessage> handleTaskNotFoundException(NotFoundException notFoundException) {
+        var exceptionMessage = new ExceptionMessage(notFoundException.getMessage());
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
     }
 }

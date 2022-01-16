@@ -16,7 +16,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 public class TaskEntity {
-
     @Id
     @GeneratedValue
     private int id;
