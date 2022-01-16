@@ -34,4 +34,8 @@ public interface SubtaskRepository extends JpaRepository<SubtaskEntity, Integer>
     @Modifying
     @Query("delete from SubtaskEntity st where st.parentTask.id = :parentTaskId and st.id = :subtaskId")
     int deleteEntityWithParentTaskIdAndId(int parentTaskId, int subtaskId);
+
+    @Modifying
+    @Query("delete from SubtaskEntity st where st.parentTask.id = :parentTaskId")
+    int deleteEntityWithParentTaskId(int parentTaskId);
 }
