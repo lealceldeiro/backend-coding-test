@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<TaskDto> getTasks(Pageable pageable, TaskSearchSpecification taskSearchSpecification) {
+    public Page<TaskDto> getTasks(Pageable pageable, @Nullable Specification<TaskEntity> taskSearchSpecification) {
         var page = taskRepository.findAll(taskSearchSpecification, pageable);
         var pageDtoContent = page.getContent().stream().map(taskTransformer::toDto).collect(Collectors.toList());
         return new PageImpl<>(pageDtoContent, pageable, page.getTotalElements());

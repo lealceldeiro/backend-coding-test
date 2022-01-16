@@ -27,8 +27,7 @@ public class TaskController {
     @GetMapping
     public Page<TaskDto> getTasks(Pageable pageable,
                                   @RequestParam(value = "filter", required = false) List<String> filters) {
-        var taskFilter = new TaskSearchSpecification(filters);
-        return taskService.getTasks(pageable, taskFilter);
+        return taskService.getTasks(pageable, new TaskSearchSpecification(filters));
     }
 
     @GetMapping("/{taskId}")
