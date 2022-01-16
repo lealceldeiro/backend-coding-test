@@ -20,7 +20,8 @@ repositories, I'll do so without any previous warning to any third party.
 An alternative to the required tools mentioned below, is to have installed [docker](https://docs.docker.com/) and
 [docker-compose](https://docs.docker.com/compose/). If that's the case you can run
 `docker-compose up -d rp_mysql_db rp_springbootapp` from the project root directory. In this case there's no need to
-configure any property (like DB connection parameters).
+configure any property (like DB connection parameters). Notice if you use this approach, and want to run the stack again
+after making some change to the model entities you should use `docker-compose up -d -- build rp_mysql_db rp_springbootapp`
 
 To *test* the application endpoints, you can use as a reference the provided
 
