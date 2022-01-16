@@ -1,13 +1,16 @@
 package com.example.demo.subtask;
 
 import com.example.demo.exception.SubtaskNotFoundException;
+import com.example.demo.exception.TaskNotFoundException;
 import com.example.demo.task.TaskRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -35,7 +38,15 @@ public class SubtaskServiceImpl implements SubtaskService {
         var subtaskEntity = subtaskTransformer.toEntity(subtaskDto);
         subtaskEntity.setParentTask(task);
 
-        return subtaskTransformer.toIdDto(subtaskRepository.save(subtaskEntity));
+        SubtaskEntity savedSubtask;
+        try {
+            savedSubtask = subtaskRepository.saveAndFlush(subtaskEntity); // flush to detect any FK constraint violation
+        } catch (Exception e) {
+            log.error("Error while creating subtask for task with id {}", taskId, e);
+            var errorMsg = "Error creating subtask. Verify the task exist and the subtask data is correct";
+            throw new TaskNotFoundException(errorMsg);
+        }
+        return subtaskTransformer.toIdDto(savedSubtask);
     }
 
     @Override

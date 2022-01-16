@@ -72,14 +72,14 @@ class SubtaskServiceImplTest {
 
         when(taskRepository.getById(taskId)).thenReturn(TestsUtil.taskEntityStub());
         when(subtaskTransformer.toEntity(subtaskDto)).thenReturn(subtaskEntity);
-        when(subtaskRepository.save(subtaskEntity)).thenReturn(subtaskEntity);
+        when(subtaskRepository.saveAndFlush(subtaskEntity)).thenReturn(subtaskEntity);
         when(subtaskTransformer.toIdDto(subtaskEntity)).thenReturn(expected);
 
         var actual = subtaskService.createSubtask(taskId, subtaskDto);
 
         assertEquals(expected, actual);
         verify(taskRepository, times(1)).getById(taskId);
-        verify(subtaskRepository, times(1)).save(subtaskEntity);
+        verify(subtaskRepository, times(1)).saveAndFlush(subtaskEntity);
         verify(subtaskTransformer, times(1)).toEntity(subtaskDto);
         verify(subtaskTransformer, times(1)).toIdDto(subtaskEntity);
     }
