@@ -2,7 +2,7 @@ package com.example.demo.subtask;
 
 import com.example.demo.TestsUtil;
 import com.example.demo.exception.SubtaskNotFoundException;
-import com.example.demo.task.TaskEntity;
+import com.example.demo.exception.TaskNotFoundException;
 import com.example.demo.task.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -82,6 +81,16 @@ class SubtaskServiceImplTest {
         verify(subtaskRepository, times(1)).saveAndFlush(subtaskEntity);
         verify(subtaskTransformer, times(1)).toEntity(subtaskDto);
         verify(subtaskTransformer, times(1)).toIdDto(subtaskEntity);
+    }
+
+    @Test
+    void createSubtaskThrowsNotFoundExceptionIfTheresAnExceptionWhileSavingTheData() {
+        when(subtaskTransformer.toEntity(any())).thenReturn(TestsUtil.subtaskEntityStub());
+        when(subtaskRepository.saveAndFlush(any()))
+                .thenThrow(new RuntimeException("Some exception propagated from lower layers"));
+
+        var dto = new SubtaskDto();
+        assertThrows(TaskNotFoundException.class, () -> subtaskService.createSubtask(1, dto));
     }
 
     @Test
