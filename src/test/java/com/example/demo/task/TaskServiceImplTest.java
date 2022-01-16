@@ -2,6 +2,7 @@ package com.example.demo.task;
 
 import com.example.demo.TestsUtil;
 import com.example.demo.exception.TaskNotFoundException;
+import com.example.demo.subtask.SubtaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,8 @@ import static org.mockito.Mockito.when;
 class TaskServiceImplTest {
     @MockBean
     private TaskRepository taskRepository;
+    @MockBean
+    private SubtaskRepository subtaskRepository;
     @MockBean
     private TaskTransformer taskTransformer;
 

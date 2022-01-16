@@ -1,7 +1,9 @@
 package com.example.demo.task;
 
 import com.example.demo.exception.TaskNotFoundException;
+import com.example.demo.subtask.SubtaskRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
+    private final SubtaskRepository subtaskRepository;
     private final TaskTransformer taskTransformer;
 
     @Override
@@ -51,7 +55,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(int taskId) {
+        var subtaskDeleted = subtaskRepository.deleteEntityWithParentTaskId(taskId);
         if (taskRepository.deleteEntityWithId(taskId) < 1) {
+            if (subtaskDeleted > 0) {
+                log.warn("Possible inconsistency found: {} subtasks with parent task id {} were deleted. "
+                         + "But no parent task with that id was deleted", subtaskDeleted, taskId);
+            }
             throw new TaskNotFoundException(taskId);
         }
     }
