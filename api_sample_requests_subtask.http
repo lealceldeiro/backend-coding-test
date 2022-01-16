@@ -4,18 +4,20 @@ Accept: application/json
 ###
 
 # GET http request that returns a specific subtasl by its parent task ID and its id.
-# Note: Returns OK, if there's a subtask with id 2 (2 can be replaced with any other id value) and a subtask with id 1.
+# Note: Returns OK, if there's a subtask with id 2 (2 can be replaced with any other id value) and a subtask with id 3.
 # If there's no task or subtask with the given id, it'll return 404. An example of that is the below request.
-GET http://localhost:8443/task/2/subtask/1
+GET http://localhost:8443/task/2/subtask/3
 Accept: application/json
 
 ###
 # Not found
-GET http://localhost:8443/task/-1/subtask/1
+GET http://localhost:8443/task/-1/subtask/3
 Accept: application/json
 
 ###
 # POST http request that stores a new subtask in the database.
+# Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value).
+## If there's no task with the given id, it'll return 404. An example of that is the below request.
 POST http://localhost:8443/task/2/subtask
 Accept: application/json
 Content-Type: application/json
@@ -25,10 +27,20 @@ Content-Encoding: UTF-8
 }
 
 ###
+# Not found.
+POST http://localhost:8443/task/-1/subtask
+Accept: application/json
+Content-Type: application/json
+Content-Encoding: UTF-8
+
+{
+}
+
+###
 # PUT http request that updates a specific subtask by its ID.
-# Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value) and a subtask with id 1.
+# Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value) and a subtask with id 3.
 # If there's no task or subtask with the given ids, it'll return 404. An example of that is the below request.
-PUT http://localhost:8443/task/2/subtask/1
+PUT http://localhost:8443/task/2/subtask/3
 Accept: application/json
 Content-Type: application/json
 Content-Encoding: UTF-8
@@ -48,10 +60,10 @@ Content-Encoding: UTF-8
 
 ###
 # DELETE http request that deletes a subtask in the database.
-# Note: Returns OK, if there's a task with id 1 (1 can be replaced with any other id value) and subtask with id 2.
+# Note: Returns OK, if there's a task with id 2 (2 can be replaced with any other id value) and subtask with id 3.
 # If there's no task or subtask with the given ids, it'll return 404. An example of that is the below request.
-DELETE http://localhost:8443/task/2/subtask/1
+DELETE http://localhost:8443/task/2/subtask/3
 
 ###
 # Not found
-DELETE http://localhost:8443/task/-1/subtask/1
+DELETE http://localhost:8443/task/-1/subtask/3
